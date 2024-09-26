@@ -1,0 +1,133 @@
+.main {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px;
+    .products {
+        width: 50%;
+        margin: 0px;
+
+        .product {
+            display: flex;
+            height: 250px;
+            padding: 25px 0;
+            border-top: 1px solid rgb(223, 221, 221);
+            position: relative;
+
+            .texts {
+                font-size: 14px;
+                position: relative;
+                margin: 0 70px 0 20px;
+
+                :first-child {
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    margin: 0;
+                }
+
+                :first-child {
+                    font-weight: 600;
+                    font-size: 15px;
+                }
+
+                :last-child {
+                    position: absolute;
+                    bottom: 0px;
+                    right: unset;
+                    color: unset
+                }
+            }
+
+            select {
+                padding: 0 10px;
+                font-family: "poppins";
+                height: 30px;
+                width: 60px;
+                font-size: 16px;
+                border: 1px solid #9b9b9b;
+                border-radius: 5px;
+                appearance: none;
+                /* Remove default appearance */
+                -webkit-appearance: none;
+                /* Remove default appearance for Safari */
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>');
+                /* Add custom arrow icon */
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 20px 20px;
+                cursor: pointer;
+                outline-color: black;
+            }
+
+            /* Style the options */
+            select option {
+                padding: 20px;
+                font-size: 16px;
+            }
+
+            :last-child {
+                margin: 0;
+                position: absolute;
+                right: 0;
+                color: #9b9b9b;
+            }
+        }
+
+
+    }
+
+    .summary{
+        background-color: #f8f9fd;
+        height: fit-content;
+        width: 30%;
+        padding: 30px;
+        :first-child{
+            font-weight: 500;
+        }
+        .flex{
+            margin: 0;
+            color: #737374;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 5px 0;
+            border-bottom: 1px solid #dfdfdf;
+            :last-child{
+                border: none;
+            }
+        }
+
+        button{
+            width: 100%;
+            height: 40px;
+            font-weight: 500;
+            border: none;
+            font-size: unset;
+            font-family: unset;
+            background-color: black;
+            color: white;
+            border-radius: 2px;
+        }
+    }
+}
+
+.cvrr{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .minicart{
+        width: 30%;
+        height: 100%;
+        background-color: white;
+
+    }
+
+}

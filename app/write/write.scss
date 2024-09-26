@@ -1,0 +1,157 @@
+form{
+    margin:100px auto;
+    width:80%;
+    border-radius: 10px;
+
+
+
+    .input-main {
+        max-width: 100%;
+        margin: 20px 0;
+        p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+    
+        input,  textarea {
+            padding: 8px; /* Padding applied to top and bottom */
+            padding-left: 10px; /* Additional padding to the left */
+            padding-right: 10px; /* Additional padding to the right */
+            width: calc(100% - 20px); /* Subtracting the total additional padding from the width */
+            max-width: 100%;
+            border: 1px solid #CAD0DB;
+            font-size: 12px;
+            border-radius: 5px;
+            outline: none;
+
+            background-color: white;
+        }
+    
+        select {
+            padding: 8px; 
+            padding-left: 10px;
+            padding-right: 10px;
+
+            font-size: 12px;
+            border: 1px solid #CAD0DB;
+            border-radius: 5px;
+            appearance: none; /* Remove default appearance */
+            -webkit-appearance: none; /* Remove default appearance for Safari */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>'); /* Add custom arrow icon */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px 20px;
+            cursor: pointer;
+            background-color: white;
+            width: 100%;
+            outline: none;
+        }
+    
+        /* Style the options */
+        select option {
+            padding: 10px;
+            font-size: 13px;
+
+            
+        }
+    
+    }
+    
+    .input-main input:focus,
+    textarea:focus , select:focus{
+        outline:2px solid #4F46E5; /* Change the outline color when focused */
+    }
+    
+
+
+
+    button{
+        width: 100%;
+        background-color:black;
+        color: white;
+        font-family: unset;
+        padding: 10px 0;
+        margin-top: 20px;
+    }
+    .label {
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+        margin-right: 10px;
+        max-width: 100%;
+
+            .checkbox-container {
+                display: inline-flex;
+                align-items: center;
+            }
+    
+            .custom-checkbox {
+                width: 55px;  /* Adjust the width to your desired size */
+                height: 20px; /* Adjust the height to your desired size */
+                appearance: none; /* Remove default styling */
+                background-color: #ccc;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                cursor: pointer;
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0;
+            }
+    
+            .custom-checkbox:checked {
+                background-color: #4c5eaf; /* Change the background color when checked */
+                border-color: #4c5eaf;
+            }
+    
+            .custom-checkbox:checked::after {
+                content: "";
+                position: absolute;
+                top: 3px;  /* Adjust the top position to center the checkmark */
+                left: 5px; /* Adjust the left position to center the checkmark */
+                width: 3px;
+                height: 6px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+    
+            .checkbox-label {
+                margin-left: 10px; /* Add some space between the checkbox and the label text */
+                cursor: pointer;
+            }
+        margin-bottom: 50px;
+    }
+    .phone-input-container {
+        display: flex;
+        align-items: center;
+    
+        select {
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            padding: 10px;
+            font-size: 14px;
+            max-width: 150px;
+            outline: none;
+            appearance: none; /* Remove default styling in some browsers */
+        }
+        
+        input[type="tel"] {
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 5px 5px 0;
+            padding: 10px;
+            font-size: 12px;
+
+            outline: none;
+            flex: 1;
+        }
+        
+        input[type="tel"]::placeholder {
+            color: #aaa;
+        }
+        input:focus{
+            outline:2px solid #4F46E5
+        }
+    }
+}

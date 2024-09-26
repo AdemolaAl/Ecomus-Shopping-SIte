@@ -1,95 +1,94 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+import React, { useState, useEffect } from 'react';
 
-export default function Home() {
+import SpecialLayout from './components/home-layout'
+import ThreeDivSlider from './components/ThreeDivSlider';
+import ContinuousSlider from './components/continuousslide.js'
+import Categories from './components/categories';
+import Discount from './components/discount';
+import ProductDiv1 from './components/productdiv';
+import Trending from './components/trending';
+import SignInPopup from './components/signin';
+import RegisterPopup from './components/Register'
+import { Discount2 } from './components/discount';
+import VerificationPopup from './components/verification';
+import Loading from './components/loading';
+import { Error }  from './components/success';
+import Success from './components/success';
+
+import Marquee from './components/slider';
+
+// app/shared-layout/page.js
+export default function HomePage() {
+
+  const [isSignInOpen, setSignInOpen] = useState(false);
+  const [isRegisterOpen, setRegisterOpen] = useState(false);
+  const [isVer, setVer] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errorHeight, setErrorHeight] = useState(-200) 
+  const [successHeight, setSuccessHeight] = useState(-200) 
+  const [message , setMessage] = useState('')
+
+  const openSignIn = () => { setSignInOpen(true); setRegisterOpen(false) };
+  const closeSignIn = () => setSignInOpen(false);
+
+  const openLoading =()=>{setLoading(true)}
+  const closeLoading = ()=>{setLoading(false)}
+
+  const OpenVer =()=>{  setVer(true); setSignInOpen(false); setRegisterOpen(false) };
+  const CloseVer =()=> setVer(false)
+
+
+  const openRegister = () => { setRegisterOpen(true); setSignInOpen(false);}
+  const closeRegister = () => setRegisterOpen(false)
+
+  function showError(message){
+    setErrorHeight(0)
+    setSuccessHeight(-200)
+    setMessage(message)
+  }
+  function hideError(){
+    setErrorHeight(-200)
+  }
+
+  function showSuccess(message){
+    setSuccessHeight(0)
+    setErrorHeight(-200)
+    setMessage(message)
+  }
+  function hideSuccess(){
+    setSuccessHeight(-200)
+  }
+
+
+
+  
+
+  useEffect(() => {
+    if (isSignInOpen || isRegisterOpen) {
+      document.body.classList.add('noScroll');
+    } else {
+      document.body.classList.remove('noScroll');
+    }
+  }, [isSignInOpen, isRegisterOpen]);
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <SpecialLayout signInFunc={openSignIn} >
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Error height={errorHeight} message={message}/>
+      <Success height={successHeight} message={message}/>
+      <Loading openLoading={loading}/>
+      
+      <ThreeDivSlider />
+      <Marquee/>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      <Categories />
+      <Discount />
+      <ProductDiv1 />
+      <Trending />
+      <Discount2 />
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </SpecialLayout>
   );
 }
