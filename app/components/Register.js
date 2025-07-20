@@ -2,13 +2,41 @@
 import React from 'react';
 import '../home.scss';
 import { useState, useEffect } from 'react';
+import { useGlobalState } from './default2';
 
-const RegisterPopup = ({ isOpen, onClose, signinFunc, openVer, openLoading, closeLoading, showError, hideError, showSuccess, hideSuccess }) => {
-    if (!isOpen) return null;
+const RegisterPopup = () => {
+   
+    const { state, dispatch } = useGlobalState();
+
+    const openSignIn = () => dispatch({ type: 'OPEN_SIGNIN' });
+    const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
+    const openVer = () => dispatch({ type: 'OPEN_VERIFICATION' });
+    const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
+    const closeRegister = () => dispatch({type:'CLOSE_REGISTER'})
+   
+    const {
+        isRegisterOpen,
+    } = state;
+    
+    
+    if (!isRegisterOpen) return null;
     const [username, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [number, setNumber] = useState('')
+
+    const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
+
+    function showPopup(message, type) {
+        setPopup({ visible: true, message, type });
+        setTimeout(() => {
+            hidePopup();
+        }, 3000);
+    }
+
+    function hidePopup() {
+        setPopup({ visible: false, message: '', type: '' });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,15 +54,22 @@ const RegisterPopup = ({ isOpen, onClose, signinFunc, openVer, openLoading, clos
             const data = await res.json();
             if (data.message === 'successfull') {
                 openVer();
-                showSuccess('Registation Successfull');
-                setTimeout(() => { hideSuccess() }, 3000)
+                showPopup('Registration Successful', 'success')
+                setTimeout(() => {
+                    closeRegister()
+                }, 1500);
             }
+            else {
+                showPopup(data.message, 'error')
+            }
+
         } catch (error) {
 
             console.error('Error during signup:', error);
 
-            showError('Error Inserting User');
-            setTimeout(() => { hideError() }, 3000)
+            showPopup('Error During Sign in', 'error')
+            setTimeout(() => { hidePopup() }, 3000)
+            
 
         } finally {
             closeLoading()
@@ -44,9 +79,16 @@ const RegisterPopup = ({ isOpen, onClose, signinFunc, openVer, openLoading, clos
     return (
         <div className='signin-cvr'>
             <div className='signin'>
+
+                {popup.visible && (
+                    <div className={`popup ${popup.type}`}>
+                        {popup.message}
+                    </div>
+                )}
+
                 <div className='flex2'>
                     <h2>Register</h2>
-                    <div onClick={onClose} className='x'>×</div>
+                    <div onClick={closeRegister} className='x'>×</div>
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -64,7 +106,7 @@ const RegisterPopup = ({ isOpen, onClose, signinFunc, openVer, openLoading, clos
                     </div>
                     <div className='flex1'>
                         <button type="submit" className='signIn'>Sign In</button>
-                        <div className='create' onClick={signinFunc}>Already have an account? Log in here</div>
+                        <div className='create' onClick={openSignIn}>Already have an account? Log in here</div>
                     </div>
 
                 </form>

@@ -775,7 +775,7 @@ body {
         }
 
         .products {
-            height: 300px;
+            height: 400px;
             margin-bottom: 10px;
             overflow-x: auto;
             padding: 0 30px;
@@ -798,7 +798,6 @@ body {
 
             .product {
                 display: flex;
-                align-items: center;
                 column-gap: 10px;
                 height: 150px;
                 border-top: 1px solid rgb(224, 224, 224);
@@ -810,6 +809,7 @@ body {
                 }
 
                 .left {
+                    margin-top: 5px;
                     .incre {
                         display: flex;
                         justify-content: space-between;
@@ -1026,6 +1026,7 @@ body {
     right: 30px;
     display: flex;
     align-items: center;
+    z-index: 50;
     transition: top 1s;
 
 
@@ -1061,10 +1062,25 @@ body {
 
 }
 
-.popup2.true{
+.popup2.error{
+    width: unset;
+    background-color: #eec8c5;
+    .first{
+        background-color: #e5b2ae;
+        color: #b1332c;
+    }
+    .second{
+        p{
+            color: #b1332c;
+        }
+    }
+}
+
+.popup2.true {
     top: 30px;
 }
-.popup2.false{
+
+.popup2.false {
     top: -80px;
 }
 

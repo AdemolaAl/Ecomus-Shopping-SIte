@@ -1,27 +1,25 @@
+'use client'
 import Image from 'next/image';
-import '../home.scss'
-import SignInPopup from './signin';
-import RegisterPopup from './Register';
+import '../home.scss';
 import VerificationPopup from './verification';
 import Loading from './loading';
-import Success from './success';
-import { Error } from './success';
-import { Defaults } from './default';
 import MiniCarts from './minicart';
+import { useGlobalState } from './default2';
 
 export default function Header() {
+    const { state, dispatch } = useGlobalState();
+
+    
+    const handleOpenSignIn = () => dispatch({ type: 'OPEN_SIGNIN' });
+    const handleOpenCart = () => dispatch({ type: 'OPEN_CART' });
+    const handleCloseCart = () => dispatch({ type: 'CLOSE_CART' });
+    const handleOpenRegister = () => dispatch({type:'OPEN_REGISTER'})
 
     const {
-        isSignInOpen, openSignIn, closeSignIn,
-        isRegisterOpen, openRegister, closeRegister,
-        isVer, OpenVer, CloseVer,
-        loading, openLoading, closeLoading,
-        cart , openCart , closeCart,
-        errorHeight, successHeight, message,
-        showError, hideError, showSuccess, hideSuccess
-    } = Defaults();
+        cart,
+    } = state;
 
-
+    console.log(state);
 
     return (
         <div className="header">
@@ -44,25 +42,11 @@ export default function Header() {
                 <p>Blog <i className="fa-solid fa-chevron-down"></i> </p>
             </div>
             <div className="right">
-                <i className="fa-regular fa-user" onClick={openSignIn}></i>
-                <i className="fa-solid fa-cart-shopping" onClick={openCart}></i>
+                <i className="fa-regular fa-user" onClick={handleOpenSignIn}></i>
+                <i className="fa-solid fa-cart-shopping" onClick={handleOpenCart}></i>
             </div>
 
-            <Error height={errorHeight} message={message}/>
-            <Success height={successHeight} message={message}/>
-            <MiniCarts open={cart} closeCart={closeCart}/>
-            <Loading openLoading={loading}/>
-            <SignInPopup isOpen={isSignInOpen} onClose={closeSignIn} registerFunc={openRegister} openLoading={openLoading} closeLoading={closeLoading} />
-            <RegisterPopup isOpen={isRegisterOpen} onClose={closeRegister} signinFunc={openSignIn} openVer={OpenVer} openLoading={openLoading} closeLoading={closeLoading} showError={showError} hideError={hideError} showSuccess={showSuccess} hideSuccess={hideSuccess} />
-            <VerificationPopup isOpenVer={isVer} onCloseVer={CloseVer} openLoading={openLoading} closeLoading={closeLoading} showError={showError} hideError={hideError} showSuccess={showSuccess} hideSuccess={hideSuccess} />
-
-                
+            <MiniCarts open={cart} closeCart={handleCloseCart} />
         </div>
-    )
+    );
 }
-
-
-
-
-
-

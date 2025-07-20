@@ -1,11 +1,9 @@
-// components/SignInPopup.js
-import React, { useState } from 'react';
+
 import '../home.scss';
 import Image from 'next/image';
 
-const Loading = () => {
+const Loading2 = ({loading=false}) => {
 
-    const {loading} = useState
     if (!loading) return null;
 
 
@@ -28,4 +26,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default Loading2;

@@ -2,8 +2,45 @@ import React, { useState, useEffect } from 'react';
 import '../home.scss';
 import Image from 'next/image';
 import Increment from '../productpage/components/increment';
+import useSWR from "swr";
+import Loading from './loading';
+import { Defaults } from './default';
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const MiniCarts = ({ open, closeCart }) => {
+
+
+    const { data: products, error: productError } = useSWR(`/cart`, fetcher);
+
+    const [openPopup, setOpenPopup] = useState(false);
+    const [popupMessage, setpopupMessage] = useState("");
+    const [popuptype, setPopupType] = useState('')
+
+    function openPop() {
+        setOpenPopup(true);
+        setTimeout(() => {
+            setOpenPopup(false);
+        }, 2000);
+    }
+
+    const {
+        isSignInOpen, openSignIn, closeSignIn,
+        isRegisterOpen, openRegister, closeRegister,
+        isVer, OpenVer, CloseVer,
+        showError, hideError, showSuccess, hideSuccess
+    } = Defaults();
+
+
+    if (productError) {
+        console.log(productError)
+        console.log('error');
+        setpopupMessage("Sign in required");
+        setPopupType('error')
+        openPop();
+        openSignIn()
+        return;
+    }
+
     const [slide, setSlide] = useState(false);
 
     useEffect(() => {
@@ -15,8 +52,8 @@ const MiniCarts = ({ open, closeCart }) => {
     function close() {
         setSlide(false); // Slide out animation
         setTimeout(() => {
-            closeCart(); 
-        }, 500); 
+            closeCart();
+        }, 500);
     }
 
     if (!open && !slide) return null; // Prevent rendering if the cart is not open or sliding
@@ -28,59 +65,31 @@ const MiniCarts = ({ open, closeCart }) => {
                     <p>Shopping cart</p>
                     <div className='x' onClick={close}>×</div>
                 </div>
-                <div className='products'>
-                    <div className='product'>
-                        <Image
-                            src={'/xbox1.jpg'}
-                            alt="Example image"
-                            width={500}
-                            height={300}
-                            className='main'
+                {products ?
+                    <div className='products'>
+                        {products.slice().reverse().map((product) => (
+                            <div className='product'>
+                                <Image
+                                    src={product.image}
+                                    alt="Example image"
+                                    width={500}
+                                    height={300}
+                                    className='main'
+                                />
+                                <div className='left'>
+                                    <p>{product.productName}</p>
+                                    <p className='price'>{product.DiscountPrice}</p>
+                                    <Increment max={product.quantity} />
+                                </div>
 
-                            
-                        />
-                        <div className='left'>
-                            <p>Nike</p>
-                            <p className='price'>$45.00</p>
-                            <Increment />
-                        </div>
-                        
+                            </div>
+                        ))}
                     </div>
-                    <div className='product'>
-                        <Image
-                            src={'/xbox1.jpg'}
-                            alt="Example image"
-                            width={500}
-                            height={300}
-                            className='main'
 
-                            
-                        />
-                        <div className='left'>
-                            <p>Nike</p>
-                            <p className='price'>$45.00</p>
-                            <Increment />
-                        </div>
-                        
-                    </div>
-                    <div className='product'>
-                        <Image
-                            src={'/xbox1.jpg'}
-                            alt="Example image"
-                            width={500}
-                            height={300}
-                            className='main'
+                    :
+                    <Loading openLoading={true} />
 
-                            
-                        />
-                        <div className='left'>
-                            <p>Nike</p>
-                            <p className='price'>$45.00</p>
-                            <Increment />
-                        </div>
-                        
-                    </div>
-                </div>
+                }
 
                 <div className='subtotal'>
                     <div className='first'>

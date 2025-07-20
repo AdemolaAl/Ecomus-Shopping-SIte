@@ -4,6 +4,7 @@ import got from 'got';
 import passport from 'passport';
 import nodemailer from 'nodemailer';
 import Flutterwave from 'flutterwave-node-v3';
+import Op from 'sequelize';
 
 export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem) {
 
@@ -422,6 +423,40 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
             res.status(500).json({ message: 'Error adding item to cart', error });
         }
     });
+
+    server.get('/cart', isAuthenticated('user'), async (req, res) => {
+        try {
+            const cart = await getOrCreateCart(req.user.id);
+    
+            const items = await CartItem.findAll({
+                where: {
+                    cartId: cart.id
+                }
+            });
+    
+            const ids = items.map(obj => obj.productId);  // Extract product IDs
+            const products = [];
+
+            for (const id of ids) {
+                try {
+                    const product = await productDB.findByPk(id); // Fetch each product by ID
+                    if (product) {
+                        products.push(product); // Add to the results if found
+                    }
+                } catch (error) {
+                    console.error(`Error fetching product with ID ${id}:`, error);
+                    // You can handle each error as needed (e.g., continue, throw, etc.)
+                }
+            }
+    
+    
+            res.status(200).json(products); // Respond with the fetched products
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+
 
     async function updateCartItemQuantity(cartItemId, quantity) {
         const cartItem = await CartItem.findByPk(cartItemId);

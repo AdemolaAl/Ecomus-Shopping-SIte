@@ -2,9 +2,20 @@
 import React from 'react';
 import '../home.scss';
 import { useState, } from 'react';
+import { useGlobalState } from './default2';
 
-const SignInPopup = ({ isOpen, onClose, registerFunc, openLoading, closeLoading, showX=(true) }) => {
-    if (!isOpen) return null;
+const SignInPopup = ({ showX = (true) }) => {
+
+    const { state, dispatch } = useGlobalState();
+    const openRegister = () => dispatch({ type: 'OPEN_REGISTER' });
+    const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
+    const closeLoading = () => dispatch({ type: 'CLOSE_LOADING' })
+    const closeSignin = () => dispatch({ type: 'CLOSE_SIGNIN' })
+
+    const {isSignInOpen} = state;
+
+    if (!isSignInOpen) return null;
+
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -39,7 +50,7 @@ const SignInPopup = ({ isOpen, onClose, registerFunc, openLoading, closeLoading,
             if (data.message === 'successful') {
                 showPopup('Signin Successful', 'success')
                 setTimeout(() => {
-                    onClose()
+                    closeSignin()
                 }, 1500);
             }
             else {
@@ -48,10 +59,11 @@ const SignInPopup = ({ isOpen, onClose, registerFunc, openLoading, closeLoading,
         } catch (error) {
             console.error('Error during signup:', error);
 
-            showPopup('Error During Sign in', 'error')
+
 
         } finally {
             closeLoading()
+
         }
     };
 
@@ -67,7 +79,7 @@ const SignInPopup = ({ isOpen, onClose, registerFunc, openLoading, closeLoading,
 
                 <div className='flex2'>
                     <h2>Sign In</h2>
-                    {showX && <div onClick={onClose} className='x'>×</div>}
+                    {showX && <div onClick={closeSignin} className='x'>×</div>}
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -80,7 +92,7 @@ const SignInPopup = ({ isOpen, onClose, registerFunc, openLoading, closeLoading,
                     <a href=''>Forgot your password?</a>
                     <div className='flex1'>
                         <button type="submit" className='signIn'>Sign In</button>
-                        <div className='create' onClick={registerFunc}>New customer? Create your account </div>
+                        <div className='create' onClick={openRegister}>New customer? Create your account </div>
                     </div>
 
                 </form>

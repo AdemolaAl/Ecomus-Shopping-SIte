@@ -1,11 +1,32 @@
 // components/SignInPopup.js
 import React from 'react';
 import '../home.scss';
-import { useState } from 'react';
+import { useState } from 'react';import { useGlobalState } from './default2';
 
-const VerificationPopup = ({ isOpenVer, onCloseVer, openLoading, closeLoading, showError, hideError, showSuccess, hideSuccess }) => {
-    if (!isOpenVer) return null;
+const VerificationPopup = () => {
+    const { state, dispatch } = useGlobalState();
+    const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
+    const closeVer = () => dispatch({ type: 'OPEN_VERIFICATION' });
+    const closeLoading = () => dispatch({type:'CLOSE_LOADING'}) 
+    const {isVer} = state;
+
+    
+    
+    if (!isVer) return null;
     const [code, setCode] = useState('')
+
+    const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
+
+    function showPopup(message, type) {
+        setPopup({ visible: true, message, type });
+        setTimeout(() => {
+            hidePopup();
+        }, 3000);
+    }
+
+    function hidePopup() {
+        setPopup({ visible: false, message: '', type: '' });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,20 +42,25 @@ const VerificationPopup = ({ isOpenVer, onCloseVer, openLoading, closeLoading, s
             });
 
             const data = await res.json();
+
             if (data.message === 'successfull') {
-                onCloseVer()
-                showSuccess('Verification Successfull');
-                setTimeout(() => { hideSuccess() }, 3000)
+                showPopup('Signin Successful', 'success')
+                setTimeout(() => {
+                    closeVer()
+                }, 1500);
             }
+
         } catch (error) {
 
             console.error('Error during signup:', error);
-            showError('Error Verifying');
-            setTimeout(() => { hideError() }, 3000)
+            showPopup('Error During Sign in', 'error')
+            setTimeout(() => {
+                closeVer()
+            }, 1500);
 
         } finally {
             closeLoading()
-            
+
         }
     };
 
@@ -42,9 +68,14 @@ const VerificationPopup = ({ isOpenVer, onCloseVer, openLoading, closeLoading, s
     return (
         <div className='signin-cvr'>
             <div className='signin'>
+                {popup.visible && (
+                    <div className={`popup ${popup.type}`}>
+                        {popup.message}
+                    </div>
+                )}
                 <div className='flex2'>
                     <h2>Verification</h2>
-                    <div onClick={onCloseVer} className='x'>×</div>
+                    <div onClick={closeVer} className='x'>×</div>
                 </div>
 
                 <form onSubmit={handleSubmit}>

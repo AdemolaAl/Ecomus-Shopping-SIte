@@ -1,7 +1,12 @@
+'use client'
 // app/layout.tsx
 import './home.scss';
 import { Inter } from 'next/font/google';
-
+import SignInPopup from './components/signin';
+import Loading from './components/loading';
+import VerificationPopup from './components/verification';
+import RegisterPopup from './components/Register';
+import { GlobalStateProvider } from './components/default2';
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
@@ -20,7 +25,13 @@ export default function RootLayout({ children }) {
         <script src='https://kit.fontawesome.com/0b68ed503d.js' crossOrigin='anonymous'></script>
       </head>
       <body className={inter.className}>
-        {children}
+        <GlobalStateProvider>
+          <Loading />
+          <SignInPopup />
+          <RegisterPopup />
+          <VerificationPopup />
+          {children}
+        </GlobalStateProvider>
       </body>
     </html>
   );
