@@ -1,4 +1,4 @@
-## Ecomus Shopping Site
+# Ecomus Shopping Site
 
 Ecomus is a shopping site built on [Next.js](https://nextjs.org/) with an [ExpressJS](https://expressjs.com/) custom server
 
