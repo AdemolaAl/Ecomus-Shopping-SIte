@@ -17,7 +17,7 @@ export default () => {
 }
 
 export function Discount2(){
-    const time = useCountdownTimer({ days: 100, hours: 0, minutes: 0, seconds: 0 });
+    const countdown = useCountdownTimer('2025-08-01T00:00:00');
     const formatTime = (time) => time.toString().padStart(2, '0');
     return(
         <div className='discount2'>
@@ -35,25 +35,25 @@ export function Discount2(){
                 <div className='times'>
                     <div className='time'>
                         <div className='cvrr'> 
-                            {time.days}
+                            {countdown.days}
                             <p>Days</p>
                         </div>
                     </div>
                     <div className='time'>
                         <div className='cvrr'> 
-                            {formatTime(time.hours)}
+                            {countdown.hours}
                             <p>Hours</p>
                         </div>
                     </div>
                     <div className='time'>
                         <div className='cvrr'> 
-                            {formatTime(time.minutes)}
+                            {countdown.minutes}
                             <p>Minutes</p>
                         </div>
                     </div>
                     <div className='time'>
                         <div className='cvrr'> 
-                            {formatTime(time.seconds)}
+                            {countdown.seconds}
                             <p>Seconds</p>
                         </div>
                     </div>

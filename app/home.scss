@@ -7,7 +7,7 @@ body {
 }
 
 .header {
-    display: flex;
+    display: flex; 
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
@@ -20,18 +20,22 @@ body {
         font-size: 15px;
         gap: 30px; // Add gap between items
 
-        p {
+        div{
             display: flex;
             align-items: center;
+            font-weight: bold;
 
             i {
                 margin-left: 5px;
-                font-size: 14px;
+                font-size: 12px;
+                color: #b3b3b3;
 
             }
         }
 
     }
+
+    
 
     .right {
         display: flex;
@@ -41,24 +45,28 @@ body {
 }
 
 .slides {
-    height: 450px;
+    height: calc(100dvh - 320px);
     width: 100%;
-    position: relative;
     background-color: #effafc;
     padding: 60px 50px;
     display: flex;
     align-items: center;
 
     .cvr {
+        position: relative;
+        width: calc(100% - 100px);
+        height: 100%;
+        max-width: 1400px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         img {
             height: fit-content;
             width: fit-content;
             max-height: 90%;
             max-width: 100%;
-            position: absolute;
-            right: 150px;
-            bottom: 50px;
         }
 
 
@@ -91,6 +99,8 @@ body {
 
 .categories {
     padding: 70px 50px;
+    max-width: 1400px;
+    margin: 0 auto;
 
     .flex {
         padding: 0;
@@ -233,6 +243,8 @@ body {
 .discount {
     margin: 50px;
     width: calc(100% - 100px);
+    max-width: 1400px;
+    margin: auto;
     height: 470px;
     background: url('../public/banner-collection-3.jpg');
     background-size: cover;
@@ -280,12 +292,16 @@ body {
     margin: 50px;
     display: flex;
     width: calc(100% - 100px);
+    max-width: 1400px;
+    margin:50px auto;
     height: 480px;
     background-color: #93f859;
     border-radius: 10px;
 
     img {
         width: 50%;
+        object-fit: cover;
+        object-position: center;
         height: 100%;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
@@ -358,16 +374,18 @@ body {
 }
 
 .flex {
-    margin: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1400px;
+    padding: 0 50px;
+    margin:50px auto;
 
     .productdiv1 {
         background-color: #f7f7f7;
         display: flex;
         justify-content: center;
-        width: 610px;
+        width: 43%;
         height: 550px;
         position: relative;
         border-radius: 15px;
@@ -381,7 +399,7 @@ body {
                 height: fit-content;
                 width: fit-content;
                 max-height: 300px;
-                max-width: 100%;
+                width: 100%;
                 overflow: hidden;
                 transition: transform 0.8s ease;
             }
@@ -416,6 +434,8 @@ body {
 
 .categories2 {
     padding: 70px 50px;
+    max-width: 1400px;
+    margin: 0 auto ;
 
     .flex {
         padding: 0;

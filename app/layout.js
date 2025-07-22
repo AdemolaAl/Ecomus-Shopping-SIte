@@ -1,5 +1,4 @@
 'use client'
-// app/layout.tsx
 import './home.scss';
 import { Inter } from 'next/font/google';
 import SignInPopup from './components/signin';

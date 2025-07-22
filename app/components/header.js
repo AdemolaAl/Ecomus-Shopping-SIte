@@ -35,11 +35,11 @@ export default function Header() {
                 }}
             />
             <div className="middle">
-                <p>Home <i className="fa-solid fa-chevron-down"></i> </p>
-                <p>Shop <i className="fa-solid fa-chevron-down"></i> </p>
-                <p>Product <i className="fa-solid fa-chevron-down"></i> </p>
-                <p>Pages <i className="fa-solid fa-chevron-down"></i> </p>
-                <p>Blog <i className="fa-solid fa-chevron-down"></i> </p>
+                <div>Home <i className="fa-solid fa-chevron-down"></i> </div>
+                <div>Shop <i className="fa-solid fa-chevron-down"></i> </div>
+                <div>Product <i className="fa-solid fa-chevron-down"></i> </div>
+                <div>Pages <i className="fa-solid fa-chevron-down"></i> </div>
+                <div>Blog <i className="fa-solid fa-chevron-down"></i> </div>
             </div>
             <div className="right">
                 <i className="fa-regular fa-user" onClick={handleOpenSignIn}></i>

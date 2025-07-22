@@ -25,8 +25,8 @@ export default function ThreeDivSlider () {
       pagination={{ clickable: true }}
       //scrollbar={{ draggable: true }}
       autoplay = {{delay:'3000',  }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
+      //onSwiper={(swiper) => console.log(swiper)}
+      //onSlideChange={() => console.log('slide change')}
     >
       <SwiperSlide>
         <Slides />

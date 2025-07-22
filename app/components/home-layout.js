@@ -2,10 +2,10 @@ import React from 'react';
 import Header from './header.js'; // your header component
 import Footer from './footer.js'; // your footer component
 
-const SpecialLayout = ({ children , signInFunc}) => {
+const SpecialLayout = ({children}) => {
   return (
     <div>
-      <Header signInFunc={signInFunc}/>
+      <Header />
       
       <main>{children}</main>
       <Footer />

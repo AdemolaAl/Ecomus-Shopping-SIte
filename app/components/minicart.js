@@ -5,12 +5,19 @@ import Increment from '../productpage/components/increment';
 import useSWR from "swr";
 import Loading from './loading';
 import { Defaults } from './default';
+import { useGlobalState } from './default2';
+
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const MiniCarts = ({ open, closeCart }) => {
 
 
     const { data: products, error: productError } = useSWR(`/cart`, fetcher);
+
+    const { state, dispatch } = useGlobalState();
+
+    const openSignIn = () => dispatch({ type: 'OPEN_SIGNIN' });
+
 
     const [openPopup, setOpenPopup] = useState(false);
     const [popupMessage, setpopupMessage] = useState("");
@@ -23,12 +30,7 @@ const MiniCarts = ({ open, closeCart }) => {
         }, 2000);
     }
 
-    const {
-        isSignInOpen, openSignIn, closeSignIn,
-        isRegisterOpen, openRegister, closeRegister,
-        isVer, OpenVer, CloseVer,
-        showError, hideError, showSuccess, hideSuccess
-    } = Defaults();
+
 
 
     if (productError) {
