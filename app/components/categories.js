@@ -33,10 +33,12 @@ export default () => {
             <Swiper
                 // install Swiper modules
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-                spaceBetween={40}
+                spaceBetween={0}
                 loop={false}
                 speed={1000}
-                slidesPerView={4}
+                slidesPerView={4} 
+                
+
                 //navigation
                 navigation={{
                     prevEl: prevRef.current,
@@ -50,6 +52,9 @@ export default () => {
                     swiper.navigation.update();
                 }}
             >
+                <SwiperSlide>
+                    <Category />
+                </SwiperSlide>
                 <SwiperSlide>
                     <Category />
                 </SwiperSlide>
