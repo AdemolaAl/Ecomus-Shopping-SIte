@@ -1,47 +1,65 @@
+
+
 .productPageMain {
     display: flex;
     align-items: start;
     justify-content: space-between;
     padding: 30px;
+    max-width: 1400px;
+    margin: auto;
 
+    .left {
+            width: 55%;
 
-
-    .productImg {
-        width: 55%;
-
-        .mySwiper2 {
-            width: 100%;
-            overflow: hidden;
-
-            .main {
+            .routes{
+                margin-bottom: 30px;
+                font-size: 15px;
+                color: #9c9c9c;
+            }
+    
+            .productImg {
                 width: 100%;
-                height: 550px;
-                object-fit: cover; /* This mimics background-size: cover */
-                object-position: center;
+                display: flex;
+                gap:0 20px;
+    
+                .mySwiper2 {
+                    width: 100%;
+                    overflow: hidden;
+    
+                    .main {
+                        width: 100%;
+                        height: 550px;
+                        object-fit: cover;
+                        /* This mimics background-size: cover */
+                        object-position: center;
+                        border-radius: 7px;
+                    }
+                }
+    
+    
+    
+                .mySwiper {
+                    width: 100px;
+                    order: -1;
+                    .sub {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 7px;
+                        object-fit: cover;
+                        /* This mimics background-size: cover */
+                        object-position: center;
+                    }
+                }
+    
             }
         }
 
-
-
-        .mySwiper {
-            width: calc(100% - 40px);
-            order: -1;
-            padding: 20px;
-
-            .sub {
-                width: 100%;
-                height: 150px;
-                border-radius: 7px;
-                object-fit: cover; /* This mimics background-size: cover */
-                object-position: center;
-            }
-        }
-
-    }
+    
 
 
     .right {
         width: 43%;
+        margin-top: 40px;
 
         .main-text {
             font-size: 25px;
@@ -53,8 +71,9 @@
             align-items: center;
             gap: 10px;
 
-            :first-child {
-                color: #4f46e5;
+
+            p{
+                color: #db1215;
                 font-size: 35px;
                 margin: 0;
                 font-weight: 500;
@@ -67,7 +86,7 @@
 
             :last-child {
                 padding: 6px 10px;
-                background-color: #4f46e5;
+                background-color: #db1215;
                 color: white;
                 font-size: 12px;
                 border-radius: 20px;
@@ -76,7 +95,7 @@
 
         .hurry {
             padding: 18px 30px;
-            border: 1px solid #4f46e5;
+            border: 1px solid #8ddf5d;
             width: fit-content;
             text-align: center;
             border-radius: 5px;
@@ -93,7 +112,7 @@
                 font-weight: 600;
                 margin: 0;
                 margin-top: 10px;
-                color: #4f46e5;
+                color: #8ddf5d;
             }
 
             .ended{
@@ -107,66 +126,94 @@
         }
 
 
-        .incre {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            background-color: #e7e7e7;
-            width: 100px;
-            padding: 9px 12px;
-            font-weight: 500;
 
-            :first-child,
-            :last-child {
-                font-size: 25px;
-                cursor: pointer;
-                background-color: transparent;
-                user-select: none; 
-                border: none;
-            }
-
-            p {
-                margin: 0;
-            }
-
-        }
 
         .flex1 {
             display: flex;
-            align-items: center;
+            align-items: end;
             justify-content: space-between;
             margin-top: 20px;
+            gap: 0 7px;
 
-                .add {
-                    width: 89%;
-                    background-color: black;
-                    color: white;
-                    border-radius: 7px;
+            .add {
+                flex: 1;
+                background-color: black;
+                color: white;
+                border-radius: 30px;
+                border: none;
+                height: 50px;
+                font-family: unset;
+                font-size: 17px;
+                font-weight: 500;
+
+
+            }
+
+
+            .incre {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+                background-color: #e7e7e7;
+                width: 100px;
+                padding: 9px 12px;
+                font-weight: 500;
+
+                border-radius: 30px;
+
+                :first-child,
+                :last-child {
+                    font-size: 25px;
+                    cursor: pointer;
+                    background-color: transparent;
+                    user-select: none;
                     border: none;
-                    height: 50px;
-                    font-family: unset;
-                    font-size: 20px;
-                    font-weight: 500;
-    
-    
                 }
-            
+
+                p {
+                    margin: 0;
+                }
+
+            }
+
 
             .heart {
                 border: 1px solid #d3d3d3;
                 background-color: white;
                 height: 50px;
-                width: 10%;
+                width: 50px;
+                border-radius: 50%;
                 font-size: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
+        }
+
+        .buy-now{
+            width: 100%;
+            background-color: #93f859;
+            text-transform: uppercase;
+            border-radius: 30px;
+            border: none;
+            height: 50px;
+            font-family: unset;
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: 7px;
+            i{
+                margin-left: 10px;
+                font-size: 15px;
+            }
+            
         }
 
         .afterbuttons {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 20px;
+            margin: 20px 0;
 
             .afterbutton {
                 display: flex;
@@ -177,6 +224,24 @@
                 height: 180px;
                 width: 37%;
                 border: 1px solid #d3d3d3;
+            }
+        }
+
+        .Guarantee{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 15px;
+            color: #818181;
+
+            svg {
+                width: 21px;
+                height: 21px;
+                fill: green;
+            }
+
+            p {
+                margin: 0;
             }
         }
 
@@ -219,7 +284,7 @@
                 left: 0;
                 width: 0;
                 height: 2px;
-                background-color: #4f46e5;
+                background-color: #8ddf5d;
                 transition: width 0.3s ease-in-out;
             }
 
@@ -243,7 +308,7 @@
             button{
                 border: 0;
                 color: white;
-                background-color: #4f46e5;
+                background-color: #8ddf5d;
                 border-radius: 10px;
                 width: 100px;
                 padding: 10px 0;
@@ -360,7 +425,7 @@
                 padding: 10px 15px;
                 font-size: 17px;
                 width: calc(100% - 30px);
-                outline-color: #4f46e5;
+                outline-color: #8ddf5d;
                 outline-width: unset;
                 font-family: unset;
                 border-radius: 5px;
@@ -375,7 +440,7 @@
 
         button {
             width: 100%;
-            background-color: #4f46e5;
+            background-color: #8ddf5d;
             color: white;
             font-family: unset;
             font-size: 18px;

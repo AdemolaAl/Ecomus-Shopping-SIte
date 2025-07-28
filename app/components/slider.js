@@ -16,6 +16,18 @@ const Marquee = () => {
                 <p>NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS</p>
                 <p>LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST</p>
                 <p>FREE SHIPPING AND RETURN</p>
+
+                <p>NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS</p>
+                <p>LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST</p>
+                <p>FREE SHIPPING AND RETURN</p>
+
+                <p>NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS</p>
+                <p>LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST</p>
+                <p>FREE SHIPPING AND RETURN</p>
+                
+                <p>NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS</p>
+                <p>LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST</p>
+                <p>FREE SHIPPING AND RETURN</p>
             </div>
         </div>
     );

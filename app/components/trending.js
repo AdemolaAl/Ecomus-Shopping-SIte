@@ -33,7 +33,7 @@ export default ({Content =  ProductDiv2}) => {
             <Swiper
                 // install Swiper modules
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-                spaceBetween={40}
+                spaceBetween={80}
                 loop={false}
                 speed={1000}
                 slidesPerView={4}

@@ -20,6 +20,7 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
         <div className='productImg'>
             <Swiper
                 spaceBetween={10}
+                
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper2"
@@ -63,18 +64,20 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
                 </SwiperSlide>
             </Swiper>
 
+
+
             <Swiper
                 onSwiper={setThumbsSwiper}
-                height={'100%'}
-                spaceBetween={20}
+                direction={'vertical'}
                 slidesPerView={4}
-                freeMode={true}
-                watchSlidesProgress={true}
+                height={500}
+                spaceBetween={50}
+
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper"
             >
                 <SwiperSlide
-                    onClick={() => setActiveSlide(1)}
+                    
                 >
                     <Image
                         src={first}
@@ -83,9 +86,11 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
                         height={300}
                         className='sub'
 
+                        onClick={() => setActiveSlide(1)}
                         style={{
-                            border: activeSlide === 1 ? '1px solid black' : '1px solid #d3d3d3',
+                            border: activeSlide === 1 ? '1px solid #d3d3d3' : '',
                             cursor: 'pointer',
+                            marginBottom: '50px',
                         }}
                     />
                 </SwiperSlide>
@@ -99,7 +104,7 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
 
                         onClick={() => setActiveSlide(2)}
                         style={{
-                            border: activeSlide === 2 ? '1px solid black' : '1px solid #d3d3d3',
+                            border: activeSlide === 2 ? '1px solid #d3d3d3' : '',
                             cursor: 'pointer',
                         }}
                     />
@@ -115,7 +120,7 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
 
                         onClick={() => setActiveSlide(3)}
                         style={{
-                            border: activeSlide === 3 ? '1px solid black' : '1px solid #d3d3d3',
+                            border: activeSlide === 3 ? '1px solid #d3d3d3' : '',
                             cursor: 'pointer',
                         }}
                     />
@@ -132,7 +137,7 @@ export default function App({first='/xbox1.jpg', second='/xbox2.jpg', third='/xb
                         className='sub'
 
                         style={{
-                            border: activeSlide === 4 ? '1px solid black' : '1px solid #d3d3d3',
+                            border: activeSlide === 4 ? '1px solid #d3d3d3' : '',
                             cursor: 'pointer',
                         }}
                     />

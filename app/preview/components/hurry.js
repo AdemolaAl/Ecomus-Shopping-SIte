@@ -5,12 +5,13 @@ import { useCountdownTimer } from '../../components/timer';
 
 export default function Hurry({time}) {
 
+
   const { days, hours, minutes, seconds } = useCountdownTimer(time);
 
   if(days,hours,minutes,seconds == 0){
     return(
-        <div className='hurry'>
-            <p className='ended'>SALE ENDED</p>
+        <div>
+            
         </div>
     )
   }
