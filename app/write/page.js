@@ -50,17 +50,15 @@ export default function ProductForm() {
         const { name, value, files, id } = e.target;
         if (name === 'file' && files.length > 0) {
             const file = files[0];
-            const reader = new FileReader();
 
-            reader.onloadend = () => {
+            
                 setFormData({
                     ...formData,
-                    images: [...formData.images, {image : reader.result}],
-                    [id]: reader.result, // base64 encoded file
+                    images: [...formData.images, {image : file}],
+                    [id]: file, // base64 encoded file
                 });
-            };
+            
 
-            reader.readAsDataURL(file); // Read file as base64
         } else {
             setFormData({
                 ...formData,
@@ -68,6 +66,8 @@ export default function ProductForm() {
             });
         }
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

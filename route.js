@@ -7,6 +7,7 @@ import Flutterwave from 'flutterwave-node-v3';
 import Op from 'sequelize';
 import SftpClient from 'ssh2-sftp-client';
 import fs from 'fs';
+import path from 'path';
 import multer from 'multer';
 
 export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
@@ -35,9 +36,9 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         },
     });
 
+
     const sftp = new SftpClient();
     const remoteFilePath = '/home/alameen/EcomusUploads/app.jpg'; // Remote path on cPanel
-    
     const config = {
       host: '162.0.215.192',      
       port: 21098,                      
@@ -247,6 +248,16 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
 
         const saleEndTime = new Date(Date.now() + req.body.timer * 60 * 60 * 1000);
         console.log(saleEndTime)
+
+
+
+        // Create unique filename with timestamp + original ext
+        const ext = path.extname('test.png'); // Assuming the file is a PNG
+        const filename = `image-${Date.now()}${ext}`;
+        const localPath = req.body.file2;
+        const remotePath = `/home/alameen/public_html/uploads/${filename}`;
+
+
         try {
             await productDB.create({
                 productName: req.body.productname,
@@ -272,26 +283,7 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
             })
 
 
-            res.status(200).json({ shortIdM });
-
-
-        } catch (err) {
-            console.log('Error inserting user:', err);
-
-            res.redirect('/');
-
-        }
-
-        const sftp = new SftpClient();
-
-        // Create unique filename with timestamp + original ext
-        const ext = path.extname(req.body.image2.originalname);
-        const filename = `image-${Date.now()}${ext}`;
-        const localPath = req.file.path;
-        const remotePath = `/home/alameen/public_html/uploads/${filename}`;
-
-        try {
-            await sftp.connect(sftpConfig);
+            await sftp.connect(config);
             await sftp.put(localPath, remotePath);
             await sftp.end();
 
@@ -302,10 +294,19 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
                 message: 'Upload successful',
                 url: `https://yourdomain.com/uploads/${filename}`,
             });
+
+
+            res.status(200).json({ shortIdM });
+
+
         } catch (err) {
-            console.error(err);
-            return res.status(500).json({ error: 'Upload failed', details: err.message });
+            console.log('Error inserting user:', err);
+
+            res.redirect('/');
+
         }
+
+       
         
     })
 
