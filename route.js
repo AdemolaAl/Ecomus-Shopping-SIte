@@ -243,7 +243,7 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         }
     });
 
-    server.post('/create', async (req, res) => {
+    server.post('/create', upload.single('file2'), async (req, res) => {
         let shortIdM = shortId.generate();
 
         const saleEndTime = new Date(Date.now() + req.body.timer * 60 * 60 * 1000);
@@ -254,7 +254,7 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         // Create unique filename with timestamp + original ext
         const ext = path.extname('test.png'); // Assuming the file is a PNG
         const filename = `image-${Date.now()}${ext}`;
-        const localPath = req.body.file2;
+        const localPath = req.file.path;
         const remotePath = `/home/alameen/public_html/uploads/${filename}`;
 
 
