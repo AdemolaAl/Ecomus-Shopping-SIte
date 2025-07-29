@@ -67,7 +67,7 @@ app.prepare().then(() => {
       unique: true
     },
     shortId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     phonenumber: {
@@ -109,7 +109,7 @@ app.prepare().then(() => {
       primaryKey: true
     },
     shortId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     productName: {
@@ -160,6 +160,30 @@ app.prepare().then(() => {
     }
 
   });
+
+  const productImage = sequelize.define('productimage', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+
+    productId: DataTypes.INTEGER,
+
+    image: {
+      type: DataTypes.BLOB('long'),
+    },
+
+  })
+
+
+  productDB.hasMany(productImage, { foreignKey: 'productId' , as: 'images' });
+
+  productImage.belongsTo(productDB, { foreignKey: 'productId', as: 'product' });
+  
+  
+
+
 
   const Cart = sequelize.define('Cart', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -261,8 +285,8 @@ app.prepare().then(() => {
     productId: {
       type: DataTypes.INTEGER,
       references: {
-        model: productDB, // 'user' refers to table name
-        key: 'id'   // 'shortId' refers to column name in Customers table
+        model: productDB,
+        key: 'id'
       }
     },
     username: {
@@ -280,15 +304,22 @@ app.prepare().then(() => {
   })
 
 
-  productDB.hasMany(reviewDB, { foreignKey: 'productId' });
-  reviewDB.belongsTo(productDB, { foreignKey: 'productId' });
+  productDB.hasMany(reviewDB, { foreignKey: 'productId', as: 'reviews' });
+  reviewDB.belongsTo(productDB, { foreignKey: 'productId', as: 'product' });
 
-
+ /*
+  sequelize.sync({ force: false, alter:true}).then(() => {
+    console.log('Database & tables created!');
+  }).catch((error) => {
+    console.error('Error creating database and tables:', error);
+  });
+  */
+  
 
   server.use('/public', express.static(process.cwd() + '/public'));
 
   auth(userDB)
-  route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart ,CartItem)
+  route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart ,CartItem, productImage)
 
 
 

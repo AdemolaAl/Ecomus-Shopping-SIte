@@ -5,11 +5,22 @@ import passport from 'passport';
 import nodemailer from 'nodemailer';
 import Flutterwave from 'flutterwave-node-v3';
 import Op from 'sequelize';
+import SftpClient from 'ssh2-sftp-client';
+import fs from 'fs';
+import multer from 'multer';
 
-export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem) {
+export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
 
+    const upload = multer({ dest: 'uploads/' });
 
     const flw = new Flutterwave(`FLWPUBK_TEST-87850c180cd33e348f7c3521fdf0506e-X`, `FLWSECK_TEST-b464fb22fcf93d983fd7e9c9b4ce2b6c-X`);
+
+
+
+
+
+
+
 
 
     const transporter = nodemailer.createTransport({
@@ -23,6 +34,17 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
             rejectUnauthorized: false,
         },
     });
+
+    const sftp = new SftpClient();
+    const remoteFilePath = '/home/alameen/EcomusUploads/app.jpg'; // Remote path on cPanel
+    
+    const config = {
+      host: '162.0.215.192',      
+      port: 21098,                      
+      username: 'alameen',
+      password: 'adedollarzA1?',
+    };
+    
 
     server.post('/usersignup', async (req, res, next) => {
         const hash = bcrypt.hashSync(req.body.password, 12);
@@ -191,6 +213,35 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         }
     })
 
+    server.post('/upload', upload.single('image'), async (req, res) => {
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+        const sftp = new SftpClient();
+
+        // Create unique filename with timestamp + original ext
+        const ext = path.extname(req.file.originalname);
+        const filename = `image-${Date.now()}${ext}`;
+        const localPath = req.file.path;
+        const remotePath = `/home/YOUR_CPANL_USER/public_html/uploads/${filename}`;
+
+        try {
+            await sftp.connect(sftpConfig);
+            await sftp.put(localPath, remotePath);
+            await sftp.end();
+
+            // Clean up local file
+            fs.unlinkSync(localPath);
+
+            return res.status(200).json({
+                message: 'Upload successful',
+                url: `https://yourdomain.com/uploads/${filename}`,
+            });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Upload failed', details: err.message });
+        }
+    });
+
     server.post('/create', async (req, res) => {
         let shortIdM = shortId.generate();
 
@@ -205,12 +256,21 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
                 description: req.body.des,
                 timer: saleEndTime,
                 category: 'Shoe',
+                images:req.body.images,
+                
                 image: req.body.file1,
                 image2: req.body.file2,
                 image3: req.body.file3,
                 image4: req.body.file4,
                 shortId: shortIdM,
+            }, 
+            {
+                include: [{
+                model: productImage,
+                as: "images",
+                }]
             })
+
 
             res.status(200).json({ shortIdM });
 
@@ -221,6 +281,32 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
             res.redirect('/');
 
         }
+
+        const sftp = new SftpClient();
+
+        // Create unique filename with timestamp + original ext
+        const ext = path.extname(req.body.image2.originalname);
+        const filename = `image-${Date.now()}${ext}`;
+        const localPath = req.file.path;
+        const remotePath = `/home/alameen/public_html/uploads/${filename}`;
+
+        try {
+            await sftp.connect(sftpConfig);
+            await sftp.put(localPath, remotePath);
+            await sftp.end();
+
+            // Clean up local file
+            fs.unlinkSync(localPath);
+
+            return res.status(200).json({
+                message: 'Upload successful',
+                url: `https://yourdomain.com/uploads/${filename}`,
+            });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Upload failed', details: err.message });
+        }
+        
     })
 
     server.get('/product/:id', async (req, res) => {
@@ -228,14 +314,37 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         try {
             const product = await productDB.findOne({ // Adjust based on needed attributes
                 where: { shortId: req.params.id },
+            }, {
+                include: [{
+                    model: productImage,
+                    as: "images",
+                    attributes: ['image'] // Adjust based on needed attributes
+                }]
             });
+
             res.status(200).json(product)
             console.log(product.timer)
+            console.log(product.images)
+            console.log(product.image)
+            console.log(product.image2)
         } catch (err) {
             res.status(400)
 
         }
 
+    })
+
+    server.get('/products', async (req, res) => {
+        try {
+            const products = await productDB.findAll({
+                attributes: { exclude: ['image' , 'image2', 'image3', 'image4'] },
+                
+            });
+            res.status(200).json(products);
+        } catch (err) {
+            console.error('Error fetching products:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     })
 
 

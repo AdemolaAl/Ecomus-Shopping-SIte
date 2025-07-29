@@ -24,6 +24,7 @@ export default function ProductForm() {
         timer: '',
         quantity: '',
         des: '',
+        images:[],
         file1: null,
         file2: null,
         file3: null,
@@ -54,6 +55,7 @@ export default function ProductForm() {
             reader.onloadend = () => {
                 setFormData({
                     ...formData,
+                    images: [...formData.images, {image : reader.result}],
                     [id]: reader.result, // base64 encoded file
                 });
             };
