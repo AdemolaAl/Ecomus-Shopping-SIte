@@ -33,8 +33,11 @@ export default function Profile() {
     fetcher
   );
   if (product)[
-    console.log(product.shortId , product.image2.data)
+    console.log(product.shortId, product.images[0].image)
+    
   ]
+
+   
   
   const {
     data: reviewsData,
@@ -141,11 +144,11 @@ export default function Profile() {
               </div>
 
               <CustomPaging
-                first={product.image.data}
+                first={product.images[0].image}
                 
-                second={product.image2}
-                third={product.image3}
-                fourth={product.image4}
+                second={product.images[1].image}
+                third={product.images[2].image}
+                fourth={product.images[3].image}
               />
             </div>
             

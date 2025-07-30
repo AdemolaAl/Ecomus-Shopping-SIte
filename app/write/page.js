@@ -7,10 +7,11 @@ import Header from "../components/header";
 import { WhiteFooter } from '../components/footer';
 import CollectionText from '../components/collection-text';
 import {useRouter} from 'next/navigation';
-import Loading from '../components/loading';
+import { useGlobalState } from '../components/default2';
 
 
 export default function ProductForm() {
+    const { state, dispatch } = useGlobalState();
     const router = useRouter()
     const [selectValue, setSelectValue] = useState("");
     const [showCallOption, setShowCallOption] = useState(false);
@@ -24,16 +25,12 @@ export default function ProductForm() {
         timer: '',
         quantity: '',
         des: '',
-        images:[],
-        file1: null,
-        file2: null,
-        file3: null,
-        file4: null,
+        images:[]
     });
 
 
-    function openLoading(){setLoading(true)}
-    function closeLoading(){setLoading(false)}
+    const openLoading = () => dispatch({ type: 'OPEN_LOADING' }) 
+    const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
 
     const handleSelectTimer = (e) => {
         const value = e.target.value;
@@ -54,8 +51,7 @@ export default function ProductForm() {
             
                 setFormData({
                     ...formData,
-                    images: [...formData.images, {image : file}],
-                    [id]: file, // base64 encoded file
+                    images: [...formData.images, file],
                 });
             
 
@@ -66,6 +62,8 @@ export default function ProductForm() {
             });
         }
     };
+
+    
 
 
 
@@ -79,30 +77,39 @@ export default function ProductForm() {
     };
 
     const handleSubmit2 = async (e) => {
+        openLoading();
         e.preventDefault();
-        openLoading()
+        
 
         try {
+            const form = new FormData();
+
+            form.append('productname', formData.productname);
+            form.append('originalPrice', formData.originalPrice);
+            form.append('DiscountPrice', formData.DiscountPrice);
+            form.append('quantity', formData.quantity);
+            form.append('timer', formData.timer);
+            form.append('des', formData.des);
+
+            // append all images if needed
+            formData.images.forEach((file, index) => {
+                form.append('images', file);
+            });
+
             const res = await fetch('/create', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: form, // no need to set headers
             });
 
             const data = await res.json();
-            router.push(`/test/${data.shortIdM}`)
-
-
+            router.push(`/test/${data.shortIdM}`);
         } catch (error) {
-
-            console.error('Error during signup:', error);
-
-        }finally{
-            closeLoading()
+            console.error('Error during submit:', error);
+        } finally {
+            closeLoading();
         }
     };
+
 
     useEffect(() => {
         const savedFormData = localStorage.getItem('formData');
@@ -117,7 +124,6 @@ export default function ProductForm() {
         <div>
             <Header />
             <CollectionText text='Add a product' />
-            <Loading openLoading={loading} />
 
             <form id="contactForm" /*</div>onSubmit={handleSubmit}*/ >
                 <div className="input-main">

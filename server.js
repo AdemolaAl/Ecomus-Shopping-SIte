@@ -124,23 +124,6 @@ app.prepare().then(() => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    image: {
-      type: DataTypes.BLOB('long'), // Use 'medium' or 'long' based on your need
-      allowNull: true
-    },
-
-    image2: {
-      type: DataTypes.BLOB('long'), // Use 'medium' or 'long' based on your need
-      allowNull: true
-    },
-    image3: {
-      type: DataTypes.BLOB('long'), // Use 'medium' or 'long' based on your need
-      allowNull: true
-    },
-    image4: {
-      type: DataTypes.BLOB('long'), // Use 'medium' or 'long' based on your need
-      allowNull: true
-    },
     timer: {
       type: DataTypes.DATE,
     },
@@ -171,7 +154,7 @@ app.prepare().then(() => {
     productId: DataTypes.INTEGER,
 
     image: {
-      type: DataTypes.BLOB('long'),
+      type: DataTypes.STRING,
     },
 
   })
@@ -307,8 +290,8 @@ app.prepare().then(() => {
   productDB.hasMany(reviewDB, { foreignKey: 'productId', as: 'reviews' });
   reviewDB.belongsTo(productDB, { foreignKey: 'productId', as: 'product' });
 
- /*
-  sequelize.sync({ force: false, alter:true}).then(() => {
+ 
+ /* sequelize.sync({ force: false, alter:true}).then(() => {
     console.log('Database & tables created!');
   }).catch((error) => {
     console.error('Error creating database and tables:', error);

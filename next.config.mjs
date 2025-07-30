@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'zedabot.com',
+        pathname: '/EcomusUploads/**', // optional but recommended
+      },
+    ],
+  },
+};
 
 export default nextConfig;

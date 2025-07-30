@@ -12,7 +12,19 @@ import multer from 'multer';
 
 export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
 
-    const upload = multer({ dest: 'uploads/' });
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'uploads2/'); // make sure this folder exists
+        },
+        filename: function (req, file, cb) {
+            const ext = path.extname(file.originalname);
+            cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+        },
+    });
+    
+
+
+    const upload = multer({ storage });
 
     const flw = new Flutterwave(`FLWPUBK_TEST-87850c180cd33e348f7c3521fdf0506e-X`, `FLWSECK_TEST-b464fb22fcf93d983fd7e9c9b4ce2b6c-X`);
 
@@ -214,52 +226,104 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         }
     })
 
-    server.post('/upload', upload.single('image'), async (req, res) => {
-        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    /*async function uploadImage(image) {
+        if (!Array.isArray(image)) {
+            const sftp = new SftpClient();
+            console.log(image)
+            const ext = path.extname(image.originalname);
+            const filename = `image-${Date.now()}${ext}`;
+            const localPath = image.path;
+            const remotePath = `/home/alameen/public_html/uploads/${filename}`;
 
+            try {
+                await sftp.connect(sftpConfig);
+                await sftp.put(localPath, remotePath);
+                await sftp.end();
+
+                // Clean up local file
+                fs.unlinkSync(localPath);
+
+                return res.status(200).json({
+                    message: 'Upload successful',
+                    url: `https://yourdomain.com/uploads/${filename}`,
+                });
+            } catch (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Upload failed', details: err.message });
+            }
+
+        }
+    }*/
+
+
+
+
+    async function uploadImage(image) {
         const sftp = new SftpClient();
-
-        // Create unique filename with timestamp + original ext
-        const ext = path.extname(req.file.originalname);
+        const ext = path.extname(image.originalname);
         const filename = `image-${Date.now()}${ext}`;
-        const localPath = req.file.path;
-        const remotePath = `/home/YOUR_CPANL_USER/public_html/uploads/${filename}`;
+        const localPath = image.path;
+        const remotePath = `/home/alameen/public_html/EcomusUploads/${filename}`;
+        const publicUrl = `https://zedabot.com/EcomusUploads/${filename}`;
 
         try {
-            await sftp.connect(sftpConfig);
+            if (!fs.existsSync(localPath)) {
+                console.warn('File does not exist:', localPath);
+                return null;
+            }
+
+            await sftp.connect(config);
             await sftp.put(localPath, remotePath);
             await sftp.end();
 
-            // Clean up local file
-            fs.unlinkSync(localPath);
-
-            return res.status(200).json({
-                message: 'Upload successful',
-                url: `https://yourdomain.com/uploads/${filename}`,
-            });
+            return publicUrl;
         } catch (err) {
-            console.error(err);
-            return res.status(500).json({ error: 'Upload failed', details: err.message });
+            console.error('SFTP Upload failed:', err);
+            return null;
+        } finally {
+            // Ensure local file is always deleted after attempt
+            try {
+                if (fs.existsSync(localPath)) {
+                    fs.unlinkSync(localPath);
+                }
+            } catch (unlinkErr) {
+                console.error('Failed to delete local file:', unlinkErr);
+            }
         }
-    });
+    }
 
-    server.post('/create', upload.single('file2'), async (req, res) => {
+
+
+
+    const uploadFields = upload.fields([
+        { name: 'images', maxCount: 10 }, // optional general image array
+    ]);
+
+    server.post('/create', uploadFields, async (req, res) => {
         let shortIdM = shortId.generate();
-
         const saleEndTime = new Date(Date.now() + req.body.timer * 60 * 60 * 1000);
-        console.log(saleEndTime)
-
-
-
-        // Create unique filename with timestamp + original ext
-        const ext = path.extname('test.png'); // Assuming the file is a PNG
-        const filename = `image-${Date.now()}${ext}`;
-        const localPath = req.file.path;
-        const remotePath = `/home/alameen/public_html/uploads/${filename}`;
-
 
         try {
-            await productDB.create({
+            // Build image list (if needed)
+            const imageFiles = (req.files['images'] || []).map(file => ({
+                image: file.filename, // or file.buffer or custom upload URL
+                
+            }));
+
+            console.log(req.files)
+
+            const galleryImages = [];
+            
+            
+            if (req.files['images']) {
+                for (const file of req.files['images']) {
+                    const url = await uploadImage(file);
+                    if (url) galleryImages.push({ image: url }); // Or adapt for your DB schema
+                }
+            }
+
+            console.log(galleryImages)
+            const product = await productDB.create({
                 productName: req.body.productname,
                 originalPrice: Number(req.body.originalPrice),
                 DiscountPrice: Number(req.body.DiscountPrice),
@@ -267,67 +331,39 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
                 description: req.body.des,
                 timer: saleEndTime,
                 category: 'Shoe',
-                images:req.body.images,
-                
-                image: req.body.file1,
-                image2: req.body.file2,
-                image3: req.body.file3,
-                image4: req.body.file4,
                 shortId: shortIdM,
-            }, 
-            {
-                include: [{
-                model: productImage,
-                as: "images",
-                }]
-            })
+                images: galleryImages, // If you want to save the gallery images
+            },
+            {include: [{
+                model: productImage, as: 'images',
+                attributes: ['image'], }]}
+        );
 
-
-            await sftp.connect(config);
-            await sftp.put(localPath, remotePath);
-            await sftp.end();
-
-            // Clean up local file
-            fs.unlinkSync(localPath);
-
-            return res.status(200).json({
-                message: 'Upload successful',
-                url: `https://yourdomain.com/uploads/${filename}`,
-            });
-
+            // Optional: handle `productImage.create()` if needed separately
 
             res.status(200).json({ shortIdM });
-
-
         } catch (err) {
-            console.log('Error inserting user:', err);
-
-            res.redirect('/');
-
+            console.log('Error inserting product:', err);
+            res.status(500).json({ error: 'Product creation failed' });
         }
+    });
 
-       
-        
-    })
 
     server.get('/product/:id', async (req, res) => {
 
         try {
             const product = await productDB.findOne({ // Adjust based on needed attributes
                 where: { shortId: req.params.id },
-            }, {
+                
                 include: [{
                     model: productImage,
                     as: "images",
                     attributes: ['image'] // Adjust based on needed attributes
                 }]
+            
             });
 
             res.status(200).json(product)
-            console.log(product.timer)
-            console.log(product.images)
-            console.log(product.image)
-            console.log(product.image2)
         } catch (err) {
             res.status(400)
 
