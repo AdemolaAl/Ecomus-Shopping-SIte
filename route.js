@@ -10,8 +10,12 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 
-export default function route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
 
+
+
+export default function route(app, server, dotenv, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
+
+   
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, 'uploads2/'); // make sure this folder exists
@@ -26,7 +30,7 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
 
     const upload = multer({ storage });
 
-    const flw = new Flutterwave(`FLWPUBK_TEST-87850c180cd33e348f7c3521fdf0506e-X`, `FLWSECK_TEST-b464fb22fcf93d983fd7e9c9b4ce2b6c-X`);
+    const flw = new Flutterwave(process.env.FLUTTERWAVE_SCR1, process.env.FLUTTERWAVE_SCR2);
 
 
 
@@ -51,11 +55,12 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
 
     const sftp = new SftpClient();
     const remoteFilePath = '/home/alameen/EcomusUploads/app.jpg'; // Remote path on cPanel
+    
     const config = {
-      host: '162.0.215.192',      
-      port: 21098,                      
-      username: 'alameen',
-      password: 'adedollarzA1?',
+      host: process.env.SFTP_CONFIG_HOST,      
+      port: process.env.SFTP_CONFIG_PORT,                      
+      username: process.env.SFTP_CONFIG_USERNAME,
+      password: process.env.SFTP_CONFIG_PASSWORD,
     };
     
 

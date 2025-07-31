@@ -10,10 +10,13 @@ import auth from './auth.js';
 import passport from 'passport';
 import session from 'express-session';
 import route from './route.js';
+import dotenv from 'dotenv'
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+dotenv.config({path: "secrets.env"})
 
 
 
@@ -298,7 +301,7 @@ app.prepare().then(() => {
   server.use('/public', express.static(process.cwd() + '/public'));
 
   auth(userDB)
-  route(app, server, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart ,CartItem, productImage)
+  route(app, server, dotenv, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart ,CartItem, productImage)
 
 
 
