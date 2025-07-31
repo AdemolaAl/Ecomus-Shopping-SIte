@@ -6,6 +6,7 @@ import Loading from './components/loading';
 import VerificationPopup from './components/verification';
 import RegisterPopup from './components/Register';
 import { GlobalStateProvider } from './components/default2';
+import GeneralPopup from './components/generalpopup';
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
           <SignInPopup />
           <RegisterPopup />
           <VerificationPopup />
+          <GeneralPopup />
           {children}
         </GlobalStateProvider>
       </body>

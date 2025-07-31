@@ -31,7 +31,7 @@ export default function ProductForm() {
     
 
 
-    const openLoading = () => {dispatch({ type: 'OPEN_LOADING' }); console.log('loading opened')} 
+    const openLoading = () => {dispatch({ type: 'OPEN_LOADING' })} 
     const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
 
     const handleSelectTimer = (e) => {
@@ -70,6 +70,7 @@ export default function ProductForm() {
 
 
     const handleSubmit = (e) => {
+        openLoading();
         e.preventDefault();
 
         // Save the form data to localStorage
@@ -79,7 +80,7 @@ export default function ProductForm() {
     };
 
     const handleSubmit2 = async (e) => {
-        openLoading;
+        openLoading();
 
         e.preventDefault();
         

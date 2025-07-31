@@ -2,10 +2,16 @@
 import React, { useState } from 'react';
 import '../home.scss';
 import Image from 'next/image';
+import { useGlobalState } from './default2';
 
 const Loading = () => {
 
-    const {loading} = useState
+    const {state} = useGlobalState()
+
+
+    const {loading} = state;
+
+    console.log(loading)
     if (!loading) return null;
 
 

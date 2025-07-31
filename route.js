@@ -9,6 +9,7 @@ import SftpClient from 'ssh2-sftp-client';
 import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
+import crypto from 'crypto';
 
 
 
@@ -22,7 +23,8 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
         },
         filename: function (req, file, cb) {
             const ext = path.extname(file.originalname);
-            cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+            const uniqueSuffix = crypto.randomBytes(6).toString('hex'); // 12-char hex string
+            cb(null, `${Date.now()}-${uniqueSuffix}${ext}`);
         },
     });
     
@@ -231,35 +233,6 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
         }
     })
 
-    /*async function uploadImage(image) {
-        if (!Array.isArray(image)) {
-            const sftp = new SftpClient();
-            console.log(image)
-            const ext = path.extname(image.originalname);
-            const filename = `image-${Date.now()}${ext}`;
-            const localPath = image.path;
-            const remotePath = `/home/alameen/public_html/uploads/${filename}`;
-
-            try {
-                await sftp.connect(sftpConfig);
-                await sftp.put(localPath, remotePath);
-                await sftp.end();
-
-                // Clean up local file
-                fs.unlinkSync(localPath);
-
-                return res.status(200).json({
-                    message: 'Upload successful',
-                    url: `https://yourdomain.com/uploads/${filename}`,
-                });
-            } catch (err) {
-                console.error(err);
-                return res.status(500).json({ error: 'Upload failed', details: err.message });
-            }
-
-        }
-    }*/
-
 
 
 
@@ -418,21 +391,6 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
             console.log('Error inserting user:', err);
 
             res.redirect('/');
-
-        }
-    })
-
-
-    server.get('/getReview/:id', async (req, res) => {
-        let id = req.params.id
-        try {
-            const review = await reviewDB.findAll({
-                where: {
-                    productId: id
-                },
-            })
-            res.status(200).json(review)
-        } catch (error) {
 
         }
     })
