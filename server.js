@@ -257,10 +257,6 @@ app.prepare().then(() => {
       autoIncrement: true,
       primaryKey: true
     },
-    shortId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     stars: {
       type: DataTypes.INTEGER,
       allowNull: false,

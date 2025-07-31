@@ -33,17 +33,10 @@ export default function Profile() {
     fetcher
   );
   if (product)[
-    console.log(product.shortId, product.images[0].image)
+    console.log(product)
     
   ]
 
-   
-  
-  const {
-    data: reviewsData,
-    error: reviewsError,
-    mutate,
-  } = useSWR(`/getReview/${id}`, fetcher);
 
   const [key, setKey] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
@@ -59,9 +52,7 @@ export default function Profile() {
     setActiveTab("reviews");
   }, [key]);
 
-  useEffect(() => {
-    mutate();
-  }, [key]);
+
 
   const [review, setReview] = useState(false);
 
@@ -131,7 +122,7 @@ export default function Profile() {
           <AddReviewPopup
             isOpen={review}
             onClose={closeReview}
-            productId={product.shortId}
+            productId={product.id}
             added={remountDiv}
           />
 
@@ -239,7 +230,7 @@ export default function Profile() {
           <ProductDetails
             openReview={openReview}
             description={product.description}
-            reviews={reviewsData}
+            reviews={product.reviews}
             key={key}
             activeTab2={activeTab}
           />

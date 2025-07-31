@@ -19,7 +19,6 @@ export default function Header() {
         cart,
     } = state;
 
-    console.log(state);
 
     return (
         <div className="header">

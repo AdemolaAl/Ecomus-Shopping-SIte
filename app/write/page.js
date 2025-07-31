@@ -8,6 +8,7 @@ import { WhiteFooter } from '../components/footer';
 import CollectionText from '../components/collection-text';
 import {useRouter} from 'next/navigation';
 import { useGlobalState } from '../components/default2';
+import Loading from '../components/loading';
 
 
 export default function ProductForm() {
@@ -16,7 +17,6 @@ export default function ProductForm() {
     const [selectValue, setSelectValue] = useState("");
     const [showCallOption, setShowCallOption] = useState(false);
     const [selectTimer, setSelectTimer] = useState(false);
-    const [loading , setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         productname: '',
@@ -28,8 +28,10 @@ export default function ProductForm() {
         images:[]
     });
 
+    
 
-    const openLoading = () => dispatch({ type: 'OPEN_LOADING' }) 
+
+    const openLoading = () => {dispatch({ type: 'OPEN_LOADING' }); console.log('loading opened')} 
     const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
 
     const handleSelectTimer = (e) => {
@@ -77,7 +79,8 @@ export default function ProductForm() {
     };
 
     const handleSubmit2 = async (e) => {
-        openLoading();
+        openLoading;
+
         e.preventDefault();
         
 
@@ -123,6 +126,8 @@ export default function ProductForm() {
     return (
         <div>
             <Header />
+            <Loading />
+            
             <CollectionText text='Add a product' />
 
             <form id="contactForm" /*</div>onSubmit={handleSubmit}*/ >

@@ -292,9 +292,6 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
         }
     }
 
-
-
-
     const uploadFields = upload.fields([
         { name: 'images', maxCount: 10 }, // optional general image array
     ]);
@@ -313,12 +310,24 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
             console.log(req.files)
 
             const galleryImages = [];
+            const uploadedFilesMap = new Map();
             
             
             if (req.files['images']) {
                 for (const file of req.files['images']) {
+                    const fileKey = `${file.originalname}-${file.size}`;
+
+                    if (uploadedFilesMap.has(fileKey)) {
+                        const existingUrl = uploadedFilesMap.get(fileKey);
+                        galleryImages.push({ image: existingUrl });
+                        continue;
+                    } //check for duplicate
+
                     const url = await uploadImage(file);
-                    if (url) galleryImages.push({ image: url }); // Or adapt for your DB schema
+                    if (url) {
+                        uploadedFilesMap.set(fileKey, url);
+                        galleryImages.push({ image: url });
+                    }
                 }
             }
 
@@ -358,8 +367,12 @@ export default function route(app, server, userDB, productDB, reviewDB, PaymentL
                 include: [{
                     model: productImage,
                     as: "images",
-                    attributes: ['image'] // Adjust based on needed attributes
-                }]
+                    attributes: ['image'] 
+                }, {
+                    model:reviewDB,
+                    as:'reviews',
+                    
+                }],
             
             });
 
