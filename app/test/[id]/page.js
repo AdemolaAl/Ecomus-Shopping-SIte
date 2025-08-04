@@ -19,7 +19,6 @@ import { useState, useEffect } from "react";
 import AddReviewPopup from "@/app/productpage/components/addreview";
 import Hurry from "@/app/preview/components/hurry";
 import Loading2 from "@/app/components/loading2";
-import Popup from "@/app/components/popup";
 
 export default function Profile() {
   const { state, dispatch } = useGlobalState();
@@ -32,15 +31,10 @@ export default function Profile() {
     `/product/${id}`,
     fetcher
   );
-  if (product)[
-    console.log(product)
-    
-  ]
 
 
   const [key, setKey] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
-  const [openPopup, setOpenPopup] = useState(false);
   const [popupMessage, setpopupMessage] = useState("");
   const [popuptype, setPopupType] = useState('')
 
@@ -63,16 +57,17 @@ export default function Profile() {
     setReview(true);
   }
 
-  function openPop() {
+  /*function openPop() {
     setOpenPopup(true);
     setTimeout(() => {
       setOpenPopup(false);
     }, 2000);
-  }
+  }*/
 
   const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
   const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
   const openSignIn = () => dispatch({ type: 'OPEN_SIGNIN' });
+  const openPopup = () => { dispatch({type:'OPEN_POPUP'}); setTimeout(()=>{ dispatch({type:'CLOSE_POPUP'}) }, 2000)}
 
 
   async function handleSubmit2() {
@@ -107,7 +102,7 @@ export default function Profile() {
       console.error("Error during adding to cart:", error);
     } finally {
       closeLoading();
-      openPop();
+      openPopup();
     }
   }
   
@@ -117,7 +112,7 @@ export default function Profile() {
       {product ? (
         <div>
           <Header />
-          <Popup open={openPopup} message={popupMessage} type={popuptype} />
+          
 
           <AddReviewPopup
             isOpen={review}

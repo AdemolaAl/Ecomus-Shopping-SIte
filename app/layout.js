@@ -6,12 +6,14 @@ import Loading from './components/loading';
 import VerificationPopup from './components/verification';
 import RegisterPopup from './components/Register';
 import { GlobalStateProvider } from './components/default2';
-import GeneralPopup from './components/generalpopup';
+import Popup from './components/popup';
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
 });
+
+
 
 export default function RootLayout({ children }) {
   return (
@@ -27,10 +29,10 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <GlobalStateProvider>
           <Loading />
+          <Popup />
           <SignInPopup />
           <RegisterPopup />
           <VerificationPopup />
-          <GeneralPopup />
           {children}
         </GlobalStateProvider>
       </body>

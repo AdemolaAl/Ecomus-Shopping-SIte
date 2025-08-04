@@ -11,7 +11,6 @@ const Loading = () => {
 
     const {loading} = state;
 
-    console.log(loading)
     if (!loading) return null;
 
 

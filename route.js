@@ -599,15 +599,40 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
 
 
 
+    /*function isAuthenticated() {
+        return (req, res, next) => {
+            try {
+                if (req.isAuthenticated()) {
+                    return next();
+                }
+            }
+            catch (error) {
+                console.error('Not authenticated'); // This will be logged when the user is not authenticated
+                return res.status(500).json({ error: 'Sign in required' });
+            }
+
+        };
+    }*/
+
+
+
     function isAuthenticated() {
         return (req, res, next) => {
-          if (req.isAuthenticated()) {
-            return next();
-          }
-          console.log('Not authenticated'); // This will be logged when the user is not authenticated
-          return res.status(401).json({ message: 'Sign in required' });
+            try {
+                if (req.isAuthenticated()) {
+                    return next();
+                } else {
+                    console.log('error')
+                    return res.status(401).json({ error: 'Sign in required' });
+                    
+                }
+            } catch (error) {
+                console.error('Error checking authentication:', error);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
         };
-      }
+    }
+
       
 
 }

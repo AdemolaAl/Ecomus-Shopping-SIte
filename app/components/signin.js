@@ -3,6 +3,7 @@ import React from 'react';
 import '../home.scss';
 import { useState, } from 'react';
 import { useGlobalState } from './default2';
+import Popup from './popup';
 
 const SignInPopup = ({ showX = (true) }) => {
 
@@ -11,6 +12,13 @@ const SignInPopup = ({ showX = (true) }) => {
     const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
     const closeLoading = () => dispatch({ type: 'CLOSE_LOADING' })
     const closeSignin = () => dispatch({ type: 'CLOSE_SIGNIN' })
+    const openPopup = (message , type) => 
+        { 
+            dispatch({type:'OPEN_POPUP'});
+            dispatch({type:'SET_POPUPMESSAGE', payload : message})
+            dispatch({type:'SET_POPUPTYPE', payload : type})
+            setTimeout(()=>{ dispatch({type:'CLOSE_POPUP'}) }, 2000)
+        }
 
     const {isSignInOpen} = state;
 
@@ -54,7 +62,8 @@ const SignInPopup = ({ showX = (true) }) => {
                 }, 1500);
             }
             else {
-                showPopup(data.message, 'error')
+                showPopup(data.message, 'error')  
+                openPopup(data.message, 'error')
             }
         } catch (error) {
             console.error('Error during signup:', error);

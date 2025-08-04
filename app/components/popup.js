@@ -1,26 +1,35 @@
-export default function Popup({ open, message = "Action Successful", type }) {
-  if (type == "success") {
+import React from "react";
+import { useGlobalState } from "./default2";
+
+export default function Popup() {
+
+
+  const {state} = useGlobalState();
+
+  const {openPopup, popupMessage , popupType} = state
+
+  if (popupType == "success") {
     return (
-      <div className={`popup2 ${open}`}>
+      <div className={`popup2 ${openPopup}`}>
         <div className="first">
-          <i class="fa-solid fa-check"></i>
+          <i className="fa-solid fa-check"></i>
         </div>
         <div className="second">
           <p>SUCCESS</p>
-          <p>{message}</p>
+          <p>{popupMessage}</p>
         </div>
       </div>
     );
   }
-  if (type == "error") {
+  if (popupType == "error") {
     return (
-      <div className={`popup2 ${open}  error`}>
+      <div className={`popup2 ${openPopup}  error`}>
         <div className="first">
-         <i class="fa-solid fa-xmark"></i>
+         <i className="fa-solid fa-xmark"></i>
         </div>
         <div className="second">
           <p>ERROR</p>
-          <p>{message}</p>
+          <p>{popupMessage}</p>
         </div>
       </div>
     );

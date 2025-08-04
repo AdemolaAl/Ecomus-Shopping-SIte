@@ -11,6 +11,9 @@ const initialState = {
     cart: false,
     user: null,
     isAuthenticated: false,
+    openPopup:false,
+    popupMessage:'Action has been Completed',
+    popupType:'success',
 };
 
 // Utility function to reset all modal states to false
@@ -21,6 +24,7 @@ const resetAll = (state) => ({
     isVer: false,
     cart: false,
     loading: false,
+    openPopup:false
 });
 
 // Reducer function to handle state changes
@@ -50,6 +54,18 @@ const reducer = (state, action) => {
             return { ...resetAll(state), cart: true };
         case 'CLOSE_CART':
             return { ...state, cart: false };
+
+        case 'OPEN_POPUP':
+            return {...resetAll(state) , openPopup:true};
+
+        case 'CLOSE_POPUP':
+            return {...resetAll(state) , openPopup:false};
+
+        case 'SET_POPUPMESSAGE':
+            return { ...state, popupMessage: action.payload };
+
+        case 'SET_POPUPTYPE':
+            return { ...state, popupType: action.payload };
 
         case 'SET_MESSAGE':
             return { ...state, message: action.payload };
