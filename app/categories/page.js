@@ -12,14 +12,6 @@ export default ()=>{
             <Header />
             <CollectionText text='Collections' />
 
-            <div className='categories2Flex'>
-                <Category2 />
-                <Category2 />
-                <Category2 />
-                <Category2 />
-                <Category2 />
-                <Category2 />
-            </div>
 
             <WhiteFooter />
             

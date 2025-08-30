@@ -1,0 +1,28 @@
+.dashboard-main{
+    width: 100%;
+    .dash-cover{
+        width: 70%;
+        max-width: 1400px;
+        margin:50px auto;
+
+        .navigation{
+            border: 1px solid #ebebeb;
+            width: 23.246%;
+            padding: 40px 0 24px;
+            border-radius: 2.5px;
+            div{
+                padding:0 20px;
+                margin-bottom: 20px;
+            }
+            div:hover{
+                border-left: 2px solid black;
+            }
+        }
+        .content{
+            .dashboard{
+                
+            }
+        }
+
+    }
+}
