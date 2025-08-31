@@ -1,7 +1,8 @@
 .dashboard-main{
     width: 100%;
     .dash-cover{
-        width: 70%;
+        width: 100%;
+        padding: 0px 4%;
         max-width: 1400px;
         margin:50px auto;
 
@@ -13,6 +14,7 @@
             div{
                 padding:0 20px;
                 margin-bottom: 20px;
+                border-left: 2px solid white;
             }
             div:hover{
                 border-left: 2px solid black;
