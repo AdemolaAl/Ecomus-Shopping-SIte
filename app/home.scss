@@ -1133,6 +1133,7 @@ footer {
     padding: 50px 50px 10px 50px;
     font-weight: 300px;
     margin: 0;
+    width: calc(100% - 100px);
 
     .top {
         display: flex;
@@ -1209,7 +1210,10 @@ footer {
 .grey{
     @extend .white;
     background-color: #f5f5f5;
-    padding-left:300px ;
-    padding-right:300px ;
+    .cvr{
+        max-width: 1400px;
+        margin: auto;
+    }
+    
 
 }

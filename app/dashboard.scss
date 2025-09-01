@@ -6,6 +6,11 @@
         max-width: 1400px;
         margin:50px auto;
 
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 20px;
+
         .navigation{
             border: 1px solid #ebebeb;
             width: 23.246%;
@@ -15,15 +20,142 @@
                 padding:0 20px;
                 margin-bottom: 20px;
                 border-left: 2px solid white;
+                cursor: pointer;
             }
             div:hover{
                 border-left: 2px solid black;
+                transition: all 0.5s ease;
             }
         }
         .content{
+            flex: 1;
             .dashboard{
                 
+                border: 1px solid #ebebeb;
+                padding: 30px 20px;
+                border-radius: 2.5px;
+                font-size: 13px;
+                .username{
+                    font-weight: bold;
+                }
+                p{display: inline-block;}
+                a{
+                    color: unset;
+                }
             }
+
+            .orders{
+                @extend .dashboard;
+
+                .row{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                    margin-bottom: 20px;
+                    font-weight: bold;
+                }
+
+                .rowhead{
+                    border-bottom: 1px solid #ebebeb;
+                    padding-bottom: 10px;
+                }
+            }
+
+            .addresses{
+                @extend .dashboard;
+                font-size: 14px;
+                header{
+                    h2{
+                        margin-top: 20px;
+                        margin-bottom: 20px;
+                        font-size: 23px;
+                        font-weight: 500;
+                    }
+
+                    .edit{
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+                }
+                address{
+                    font-style: italic;
+                    line-height: 1.8;
+                    margin-bottom: 30px;
+                }
+            }
+
+            .billing-address{
+                @extend .dashboard;
+                font-size: 14px;
+                font-weight: 500;
+
+                h2{
+                    margin-bottom: 20px;
+                    font-size: 23px;
+                    font-weight: 500;
+                }
+
+                form{
+                    .names{
+                        display: flex;
+                        gap: 20px;
+                        margin-bottom: 20px;
+                        
+                        label{
+                            flex: 1;
+                        }
+                    }
+                    label{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 5px;
+                            font-weight: 400;
+                            font-size: 14px;
+
+                            input{
+                                width: calc(100% - 2.2rem);
+                                border: 1px solid #EBEBEB;
+                                outline: none;
+                                border-radius: 3px;
+                                flex: 1;
+                                padding: 0.813rem 1.1rem;
+                                font-family: unset;
+                                color: #545454;
+                            }
+
+                            input:focus{
+                                border: 1px solid black;
+                            }
+                        }
+
+                    button {
+                        color: white;
+                        padding: 12px 22px;
+                        background-color: black;
+                        font-size: 13px;
+                        font-weight: 400;
+                        border-radius: 3px;
+                        border: none;
+                    }
+                }
+
+                .password{
+                    border: 1px solid #ebebeb;
+                    padding: 30px 20px;
+                    border-radius: 2.5px;
+                    position: relative;
+                    margin: 20px 0;
+                    p{
+                        position: absolute;
+                        margin: 0;
+                        padding: 0;
+                        top:-10px;
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            
+                
         }
 
     }
