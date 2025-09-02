@@ -233,6 +233,21 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
         }
     })
 
+    server.get('/dashboard', isAuthenticated(), (req, res) => {
+        const actualPage = '/dashboard-front';
+        app.render(req, res, actualPage);
+    });
+
+
+    server.get('/logout', (req, res) => {
+        req.logout((err) => {
+            if (err) {
+                console.error('Logout error:', err);
+                return res.status(500).json({ message: 'Logout failed' });
+            }
+            res.status(200).json({ message: 'Logged out successfully' });
+        });
+    });
 
 
 
@@ -362,18 +377,25 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
 
     })
 
-    server.get('/products', async (req, res) => {
+    server.get('/home-products', async (req, res) => {
         try {
-            const products = await productDB.findAll({
-                attributes: { exclude: ['image' , 'image2', 'image3', 'image4'] },
-                
+            const product = await productDB.findAll({ // Adjust based on needed attributes
+                attributes:['shortId','productName','DiscountPrice'],
+                include: [{
+                    model: productImage,
+                    as: "images",
+                    attributes: ['image'] 
+                }],
+            
             });
-            res.status(200).json(products);
+
+            res.status(200).json(product)
         } catch (err) {
-            console.error('Error fetching products:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(400)
+
         }
     })
+
 
 
     server.post('/writeReview', isAuthenticated('user'), async (req, res) => {
@@ -623,7 +645,8 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
                     return next();
                 } else {
                     console.log('error')
-                    return res.status(401).json({ error: 'Sign in required' });
+                    res.redirect('/')
+                    
                     
                 }
             } catch (error) {

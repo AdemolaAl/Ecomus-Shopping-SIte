@@ -4,8 +4,23 @@ import Headtext from "../dashboardComponents/headtext";
 import { GreyFooter } from "../components/footer";
 import "../dashboard.scss"
 import { useState } from "react";
+import useSWR from 'swr'
+
+import { useGlobalState } from "../components/default2";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
 
 export default function () {
+    const { state, dispatch } = useGlobalState();
+    const openLoading = () => dispatch({ type: 'OPEN_LOADING' });
+    const closeLoading = () => dispatch({type:'CLOSE_LOADING'})
+
+    const { data, error } = useSWR('/api/user', fetcher)
+
+
+
+
 
     const [activeTab, setActiveTab] = useState("dashboard")
     const [activeAddress, setActiveAddress] = useState("")
@@ -27,9 +42,18 @@ export default function () {
 
 
 
+     if (error) return <div>Failed to load</div>
+    if (!data) return 
+
+    console.log(data)
+    const user = data.data
+
+
+
 
     return (
         <div>
+            
             <Header />
             <Headtext text="My account" />
             <div className="dashboard-main">
@@ -39,14 +63,14 @@ export default function () {
                         <Tab name="orders" activeTab={activeTab} openTab={openTab}>Orders</Tab>
                         <Tab name="addresses" activeTab={activeTab} openTab={openTab}>Addresses</Tab>
                         <Tab name="account" activeTab={activeTab} openTab={openTab}>Account details</Tab>
-                        <Tab name="logout" activeTab={activeTab} openTab={openTab}>Log out</Tab>
+                        <Tab name="logout" activeTab={activeTab} openTab={openTab}><a href="/logout">Log out</a></Tab>
                     </div>
 
                     <div className="content">
                         {
                             activeTab == 'dashboard' ?
                                 <div className="dashboard">
-                                    Hello <p className="username"> ademolaalameen86 </p> <br />
+                                    Hello <p className="username"> {user.username} </p> <br />
                                     From your account dashboard you can view your <a href=""> recent orders</a>, manage your <a href=""> shipping and billing addresses</a>, and edit your <a href="">password and account details</a>.
                                 </div>
 
