@@ -137,8 +137,8 @@ app.prepare().then(() => {
       type: DataTypes.STRING,
     },
 
-    category: {
-      type: DataTypes.STRING,
+    categoryId: {
+      type: DataTypes.INTEGER,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -146,6 +146,19 @@ app.prepare().then(() => {
     }
 
   });
+
+
+  const productCategory = sequelize.define('productCategory', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+  })
 
   const productImage = sequelize.define('productimage', {
     id: {
@@ -168,6 +181,8 @@ app.prepare().then(() => {
   productImage.belongsTo(productDB, { foreignKey: 'productId', as: 'product' });
   
   
+  productCategory.hasMany(productDB, { foreignKey: 'categoryId', as: 'products' });
+  productDB.belongsTo(productCategory, { foreignKey: 'categoryId' ,as: 'category', });
 
 
 
@@ -301,7 +316,7 @@ app.prepare().then(() => {
   server.use('/public', express.static(process.cwd() + '/public'));
 
   auth(userDB)
-  route(app, server, dotenv, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart ,CartItem, productImage)
+  route(app, server, dotenv, userDB, productDB, productCategory, reviewDB, PaymentLog, successfulPays, Cart ,CartItem, productImage)
 
 
 

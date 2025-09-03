@@ -33,7 +33,7 @@ export default () => {
             <Swiper
                 // install Swiper modules
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-                spaceBetween={100}
+                spaceBetween={90}
                 loop={false}
                 speed={1000}
                 slidesPerView={4} 

@@ -126,7 +126,7 @@ export default function Profile() {
             <div className="left">
 
               <div className="routes">
-                Home &gt; Shoes &gt; {product.productName}
+                Home &gt; {product.category.category} &gt; {product.productName}
               </div>
 
               <CustomPaging

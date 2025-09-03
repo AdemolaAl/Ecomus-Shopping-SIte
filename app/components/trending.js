@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef , useEffect } from 'react';
 import { ProductDiv2 } from './productdiv';
 import Image from 'next/image';
 
@@ -21,15 +21,23 @@ import 'swiper/css/scrollbar';
 
 
 
-export default ({Content =  ProductDiv2}) => {
+export default ({ Content = ProductDiv2 }) => {
 
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
+    
+
+
     const { data: products, error } = useSWR('/home-products', fetcher)
+
+
+
 
     if (error) return <div>Failed to load</div>
     if (!products) return null
+
+    console.log(products)
 
     return (
         <div className='categories2'>
@@ -44,17 +52,19 @@ export default ({Content =  ProductDiv2}) => {
                     </button>
                 </div>
             </div>
-            
+
             <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
                 spaceBetween={80}
                 loop={false}
                 speed={1000}
                 slidesPerView={4}
+                
                 navigation={{
                     prevEl: prevRef.current,
                     nextEl: nextRef.current,
                 }}
+                className='swipe'
                 onSwiper={(swiper) => {
                     swiper.params.navigation.prevEl = prevRef.current;
                     swiper.params.navigation.nextEl = nextRef.current;
@@ -63,19 +73,25 @@ export default ({Content =  ProductDiv2}) => {
                 }}
             >
                 {products.map((product, idx) => (
-                    <SwiperSlide key={product.id || idx}>
-                        <div className='productdiv2'>
-                            <div className='cvr'>
-                                <Image
-                                    src={product.image || '/apple-iphone-12-r1.jpg'}
-                                    alt={product.name || 'Product image'}
-                                    width={500}
-                                    height={300}
-                                />
-                            </div>
-                            <p>{product.name || 'Product Name'}</p>
-                            <p>{product.price ? `$${product.price}` : '$0'}</p>
-                        </div>
+                    <SwiperSlide key={product.id || idx} >
+                        <a href={`/test/${product.shortId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <div className='productdiv2'>
+                                <div className='cvr'>
+                                    <Image
+                                        src={product.images[0].image || '/apple-iphone-12-r1.jpg'}
+                                        alt={product.name || 'Product image'}
+                                        width={500}
+                                        height={300}
+                                    />
+                                </div>
+                                <div className='texts'>
+                                    <p>{product.productName || 'Product Name'}</p>
+                                    <p className='disscount'>{product.originalPrice ? `$${product.originalPrice}` : '$0'}</p>
+                                    <p className='original'>{product.DiscountPrice ? `$${product.DiscountPrice}` : '$0'}</p>
+                                    
+                                </div>
+                                
+                            </div></a>
                     </SwiperSlide>
                 ))}
             </Swiper>

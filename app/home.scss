@@ -45,6 +45,17 @@ body {
         display: flex;
         gap: 20px; // Space between icons
         font-size: 18px;
+
+        a{
+            margin: 0;
+            padding: 0;
+            color: unset;
+            text-decoration: unset
+        }
+
+        i{
+            cursor: pointer;
+        }
     }
 }
 
@@ -175,7 +186,6 @@ body {
 
 
     .category {
-        width: 230px;
         height: 250px;
         border-radius: 15px;
         position: relative;
@@ -447,6 +457,8 @@ body {
     }
 }
 
+
+
 .categories2 {
     padding: 70px 50px;
     max-width: 1400px;
@@ -561,12 +573,15 @@ body {
     }
 }
 
+
+
 .productdiv2 {
     border: 1px solid rgb(224, 224, 224);
-    width: 240px;
+    height: 450px;
     border-radius: 15px;
-    height: 350px;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
 
     .cvr {
         display: flex;
@@ -574,9 +589,12 @@ body {
     }
 
     img {
-        width: fit-content;
-        height: fit-content;
-        max-width: 80%;
+        width: 100%;
+        height:300px ;
+        object-fit: cover;
+        object-position: center;
+        border-top-left-radius:15px ;
+        border-top-right-radius:15px ;
         overflow: hidden;
         transition: transform 1.0s ease;
     }
@@ -584,6 +602,41 @@ body {
     &:hover img {
         transform: scale(1.05);
         /* Increase the size of the image */
+    }
+
+    .texts{
+        padding: 15px;
+        p{
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        p :first-child{
+            font-size: 14px;
+            font-weight:400;
+        }
+
+        .disscount{
+            text-decoration: line-through;
+            color:#949494;
+            font-size: 18px;
+            margin: 5px 0;
+            display: inline-block;
+            margin-right: 5px;
+            
+        }
+        .original{
+            
+            display: inline-block;
+            font-size:18px;
+            font-weight: 600;
+            color: #fc5732;
+        }
+    }
+
+    a{
+        text-decoration: unset;
+        color: unset;
     }
 }
 
@@ -720,6 +773,7 @@ body {
             font-family: unset;
             width: 45%;
             padding: 12px 0;
+            cursor: pointer;
             font-size: 17px;
         }
 

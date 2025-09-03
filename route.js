@@ -14,7 +14,7 @@ import crypto from 'crypto';
 
 
 
-export default function route(app, server, dotenv, userDB, productDB, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
+export default function route(app, server, dotenv, userDB, productDB, productCategory, reviewDB, PaymentLog, successfulPays, Cart, CartItem, productImage) {
 
    
     const storage = multer.diskStorage({
@@ -245,7 +245,7 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
                 console.error('Logout error:', err);
                 return res.status(500).json({ message: 'Logout failed' });
             }
-            res.status(200).json({ message: 'Logged out successfully' });
+            res.redirect('/');
         });
     });
 
@@ -332,13 +332,13 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
                 quantity: Number(req.body.quantity),
                 description: req.body.des,
                 timer: saleEndTime,
-                category: 'Shoe',
+                category: { category: req.body.category },
                 shortId: shortIdM,
                 images: galleryImages, // If you want to save the gallery images
             },
             {include: [{
                 model: productImage, as: 'images',
-                attributes: ['image'], }]}
+                attributes: ['image'], }, {model: productCategory, as: 'category', attributes: ['category']}]}
         );
 
             // Optional: handle `productImage.create()` if needed separately
@@ -365,9 +365,11 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
                     model:reviewDB,
                     as:'reviews',
                     
-                }],
+                }, {model: productCategory, as: 'category'}],
             
             });
+
+            console.log(product)
 
             res.status(200).json(product)
         } catch (err) {
@@ -380,7 +382,7 @@ export default function route(app, server, dotenv, userDB, productDB, reviewDB, 
     server.get('/home-products', async (req, res) => {
         try {
             const product = await productDB.findAll({ // Adjust based on needed attributes
-                attributes:['shortId','productName','DiscountPrice'],
+                attributes:['shortId','productName','DiscountPrice', 'originalPrice'],
                 include: [{
                     model: productImage,
                     as: "images",

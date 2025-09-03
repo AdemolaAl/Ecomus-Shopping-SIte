@@ -9,6 +9,7 @@ import CollectionText from '../components/collection-text';
 import {useRouter} from 'next/navigation';
 import { useGlobalState } from '../components/default2';
 import Loading from '../components/loading';
+import Category from '../components/category';
 
 
 export default function ProductForm() {
@@ -24,6 +25,7 @@ export default function ProductForm() {
         DiscountPrice: '',
         timer: '',
         quantity: '',
+        category: '',
         des: '',
         images:[]
     });
@@ -91,6 +93,7 @@ export default function ProductForm() {
             form.append('productname', formData.productname);
             form.append('originalPrice', formData.originalPrice);
             form.append('DiscountPrice', formData.DiscountPrice);
+            form.append('category', formData.category);
             form.append('quantity', formData.quantity);
             form.append('timer', formData.timer);
             form.append('des', formData.des);
@@ -249,6 +252,17 @@ export default function ProductForm() {
                         placeholder="Quantity"
                         name="quantity"
                         id="quantity"
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="input-main">
+                    <p>Category</p>
+                    <input
+                        type="text"
+                        placeholder="category"
+                        name="category"
+                        id="category"
                         onChange={handleChange}
                     />
                 </div>
